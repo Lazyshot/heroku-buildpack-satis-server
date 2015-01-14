@@ -45,12 +45,12 @@ cd $BUILD_DIR
 echo "-----> Vendoring PHP (v${PHP_VERSION})"
 mkdir -p $BUILD_DIR/vendor/php
 curl --silent --max-time 60 --location $BIN_S3_BUCKET/php-$PHP_VERSION.tgz | tar xz -C $BUILD_DIR/vendor/php
-mkdir $BUILD_DIR/vendor/php/conf.d
+mkdir -p $BUILD_DIR/vendor/php/conf.d
 echo "date.timezone='UTC'" >> $BUILD_DIR/vendor/php/conf.d/timezone.ini
 echo "Complete" | indent
 
 # set up composer config file
-mkdir $BUILD_DIR/.profile.d
+mkdir -p $BUILD_DIR/.profile.d
 cat >>$BUILD_DIR/.profile.d/composer.sh <<EOF
 #!/usr/bin/env bash
 export PATH=/app/vendor/satis/bin:/app/vendor/bin:/app/vendor/php/bin:/usr/local/bin:/usr/bin:/bin:${PATH}
@@ -66,7 +66,7 @@ chmod +x $BUILD_DIR/.profile.d/composer.sh
 echo "-----> Vendoring Composer"
 mkdir -p $BUILD_DIR/vendor/bin
 curl --silent --max-time 60 --location "$COMPOSER_LOCATION" > $BUILD_DIR/vendor/bin/composer.phar
-mkdir $BUILD_DIR/.composer
+mkdir -p $BUILD_DIR/.composer
 chmod 0755 $BUILD_DIR/vendor/bin/composer.phar
 bash $BUILD_DIR/.profile.d/composer.sh
 echo "Complete" | indent
@@ -82,7 +82,7 @@ echo "Complete" | indent
 # vendor subversion
 echo "-----> Vendoring Subversion (v${SVN_VERSION})"
 cd $BUILD_DIR/vendor
-mkdir subversion
+mkdir -p subversion
 curl --silent --max-time 60 --location $BIN_S3_BUCKET/subversion-$SVN_VERSION.tgz | tar xz --strip=1 -C bin
 cd $BUILD_DIR
 echo "Complete" | indent
@@ -90,7 +90,7 @@ echo "Complete" | indent
 # vendor mercurial
 echo "-----> Vendoring Mercurial (v${HG_VERSION})"
 cd $BUILD_DIR/vendor
-mkdir mercurial
+mkdir -p mercurial
 curl --silent --max-time 60 --location $BIN_S3_BUCKET/mercurial-$HG_VERSION.tgz | tar xz --strip=1 -C bin
 cd $BUILD_DIR
 echo "Complete" | indent
